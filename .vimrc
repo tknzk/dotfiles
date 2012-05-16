@@ -109,3 +109,13 @@ autocmd BufWritePre * :%s/\s\+$//ge
 
 au FileType yaml set expandtab ts=2 sw=2 enc=utf-8 fenc=utf-8
 
+" ## netrw
+" netrwは常にtree view
+let g:netrw_liststyle = 3
+" .svnで始まるファイルは表示しない
+"#let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_list_hide = '.svn'
+" 'v'でファイルを開くときは右側に開く
+let g:netrw_altv = 1
+" 'o'でファイルを開くときは上に開く
+let g:netrw_alto = 0
