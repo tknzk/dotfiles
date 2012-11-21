@@ -4,6 +4,9 @@ set expandtab
 set softtabstop=4
 set tabstop=4
 set shiftwidth=4
+"set softtabstop=2
+"set tabstop=2
+"set shiftwidth=2
 set shellslash
 set title
 set nolist
@@ -17,6 +20,7 @@ set smartcase
 set wrapscan
 set nobomb
 set ambiwidth=double
+set modeline
 
 if has("autocmd")
     " カーソル位置を記憶する
@@ -31,12 +35,37 @@ nnoremap k gk
 vnoremap j gj
 vnoremap k gk
 
+inoremap <c-e><c-h> <left>
+inoremap <c-e><c-l> <right>
+inoremap <c-e><c-k> <up>
+inoremap <c-e><c-j> <down>
+inoremap <c-e>O <esc>O
+inoremap <c-e>o <esc>o
+inoremap <c-e><c-e> <esc>A
+inoremap <c-e><c-a> <esc>I
+
+nmap <ESC><ESC> :nohlsearch<CR><ESC>
+
+
 "autocmd FileType php :set dictionary+=~/.vim/dict/php_functions.dict
 
 "set complete+=k
 
 syntax on
+
+"scriptencoding utf-8
+"scriptencoding euc-jp
+
+augroup highlightIdegraphicSpace
+  autocmd!
+  autocmd ColorScheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen
+  "guibg=DarkGreen
+  autocmd VimEnter,WinEnter * match IdeographicSpace /　/
+augroup END
+
+
 colorscheme desert
+"colorscheme jellybeans
 
 ""<TAB>で補完
 "" {{{ Autocompletion using the TAB key
@@ -64,12 +93,11 @@ inoremap <expr> <CR> pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
 
 " ref.vim
 let g:ref_phpmanual_path = $HOME . '/Dropbox/php-chunked-xhtml'
+let g:ref_refe_cmd = $HOME . '/Dropbox/ruby-refm/refe-1_9_2'
+
 
 " omnifunc
 setlocal omnifunc=syntaxcomplete#Complete
-
-
-nmap <ESC><ESC> :nohlsearch<CR><ESC>
 
 autocmd filetype php :set makeprg=php\ -l\ %
 autocmd filetype php :set errorformat=%m\ in\ %f\ on\ line\ %l
@@ -110,6 +138,10 @@ autocmd BufWritePre * :%s/\s\+$//ge
 "autocmd BufWritePre * :%s/\t/  /ge
 
 au FileType yaml set expandtab ts=2 sw=2 enc=utf-8 fenc=utf-8
+"au FileType yaml set expandtab ts=2 sw=2 enc=euc-jp fenc=euc-jp
+
+"set fileencodings=iso-2022-jp,euc-jp,cp932,ucs-bom,utf-8,default,latin1
+
 
 " ## netrw
 " netrwは常にtree view
@@ -121,3 +153,11 @@ let g:netrw_list_hide = '.svn'
 let g:netrw_altv = 1
 " 'o'でファイルを開くときは上に開く
 let g:netrw_alto = 0
+
+"let g:jellybeans_use_lowcolor_black = 0
+
+
+" indent-guides
+let g:indent_guides_auto_colors = 1
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
