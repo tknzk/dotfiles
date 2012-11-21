@@ -69,6 +69,8 @@ let g:ref_phpmanual_path = $HOME . '/Dropbox/php-chunked-xhtml'
 setlocal omnifunc=syntaxcomplete#Complete
 
 
+nmap <ESC><ESC> :nohlsearch<CR><ESC>
+
 autocmd filetype php :set makeprg=php\ -l\ %
 autocmd filetype php :set errorformat=%m\ in\ %f\ on\ line\ %l
 ""
