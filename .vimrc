@@ -11,6 +11,7 @@ endif
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'VimClojure'
+NeoBundle 'sudo.vim'
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplcache.git'
@@ -19,6 +20,14 @@ NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'pangloss/vim-javascript'
 "NeoBundle 'hallettj/jslint.vim.git'
+
+NeoBundle 'mattn/httpstatus-vim'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'TwitVim'
+NeoBundle 'netrw.vim'
+NeoBundle 'tpope/vim-abolish'
+NeoBundle 'bling/vim-airline'
+NeoBundle 'tpope/vim-fugitive'
 
 " vimscript
 NeoBundle 'PDV--phpDocumentor-for-Vim'
@@ -59,9 +68,10 @@ set modeline
 colorscheme desert
 
 " 保存時に行末の空白を除去する
-autocmd BufWritePre * :%s/\s\+$//ge
+"autocmd BufWritePre * :%s/\s\+$//ge
 " 保存時にtabをスペースに変換する
 "autocmd BufWritePre * :%s/\t/  /ge
+autocmd BufWritePre * :retab
 "
 
 " ## netrw
@@ -92,9 +102,9 @@ endif
 
 
 " php-doc.vim
-"inoremap <C-D> <ESC>:call PhpDocSingle()<CR>i
-"nnoremap <C-D> :call PhpDocSingle()<CR>
-"vnoremap <C-D> :call PhpDocRange()<CR>
+inoremap <C-D> <ESC>:call PhpDocSingle()<CR>i
+nnoremap <C-D> :call PhpDocSingle()<CR>
+vnoremap <C-D> :call PhpDocRange()<CR>
 
 
 " search hl cancel
@@ -103,8 +113,78 @@ nmap <ESC><ESC> :nohlsearch<CR><ESC>
 nmap ,l :call PHPLint()<CR>
 
 
+
+
 " Set JavaScript Lint as compiler.
 "if ! exists('b:current_compiler')
 "    compiler jsl
 "endif
+
+" Dash.app
+function! s:dash(...)
+  let ft = &filetype
+  if &filetype == 'python'
+    let ft = ft.'2'
+  endif
+  let ft = ft.':'
+  let word = len(a:000) == 0 ? input('Dash search: ', ft.expand('<cword>')) : ft.join(a:000, ' ')
+  call system(printf("open dash://'%s'", word))
+endfunction
+command! -nargs=* Dash call <SID>dash(<f-args>)
+
+let g:quickrun_config = {}
+let g:quickrun_config.markdown = {
+            \ 'outputter' : 'null',
+            \ 'command'   : 'open',
+            \ 'cmdopt'    : '-a',
+            \ 'args'      : 'Marked',
+            \ 'exec'      : '%c %o %a %s',
+            \ }
+
+
+
+
+function PHPLint()
+  let result = system(&ft . ' -l ' . bufname(""))
+  echo result
+endfunction
+
+
+""" twitvim
+let twitvim_count = 40
+nnoremap ,tp :<C-u>PosttoTwitter<CR>
+nnoremap ,tf :<C-u>FriendsTwitter<CR><C-w>j
+nnoremap ,tu :<C-u>UserTwitter<CR><C-w>j
+nnoremap ,tr :<C-u>RepliesTwitter<CR><C-w>j
+nnoremap ,tn :<C-u>NextTwitter<CR>
+
+autocmd FileType twitvim call s:twitvim_my_settings()
+function! s:twitvim_my_settings()
+  set nowrap
+endfunction
+
+"
+if has("autocmd")
+    " カーソル位置を記憶する
+    autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
+endif
+
+
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+
+
+" omnifunc
+setlocal omnifunc=syntaxcomplete#Complete
+
+autocmd filetype php :set makeprg=php\ -l\ %
+autocmd filetype php :set errorformat=%m\ in\ %f\ on\ line\ %l
+
+autocmd FileType php :set dictionary=~/Dropbox/vim-dict/php.dict
+
 
