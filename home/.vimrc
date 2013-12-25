@@ -136,12 +136,14 @@ endif
 
 
 " 保存時に行末の空白を除去する
-autocmd BufWritePre *.php,*.phtml,*.html,*rb,*.erb,*rhtml,Vagrantfile :%s/\s\+$//ge
+autocmd BufWritePre *.php,*.phtml,*.html,*rb,*.erb,*rhtml,Vagrantfile,*sql :%s/\s\+$//ge
+" 保存時にtabをスペースに変換
+autocmd BufWritePre *.php,*.phtml,*.html,*rb,*.erb,*rhtml,Vagrantfile,*sql :retab
 " autocmd BufWritePre * :%s/\s\+$//ge
 
 " 保存時にtabをスペースに変換する
 "autocmd BufWritePre * :%s/\t/  /ge
-autocmd BufWritePre * :retab
+"autocmd BufWritePre * :retab
 "
 
 " ## netrw
