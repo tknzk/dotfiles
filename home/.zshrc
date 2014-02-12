@@ -2,6 +2,9 @@
 export PATH=/usr/local/bin:/usr/local/sbin:/Users/tknzk/Sites/bit/fuel/vendor/bin/:$PATH
 export PATH=/opt/local/bin:/opt/local/sbin:~/bin:$PATH
 
+#export PGDATA=/usr/local/var/postgres
+
+
 #export GOPATH=/usr/local/bin
 #export GOPATH=/usr/local/go/bin
 
@@ -232,6 +235,13 @@ bindkey '^N' history-beginning-search-forward-end
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+
+source ~/.zsh.d/zsh-notify/notify.plugin.zsh
+
+export SYS_NOTIFIER="/usr/local/bin/terminal-notifier"
+export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
+
+
 
 # Customize to your needs...
 #export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin
