@@ -20,6 +20,7 @@
     excludesfile = /Users/tknzk/.gitignore_global
     quotepath = false
     precomposeunicode = true
+	attributesfile = /Users/tknzk/.gitattributes_global
 [difftool "sourcetree"]
     cmd = opendiff \"$LOCAL\" \"$REMOTE\"
     path = 
