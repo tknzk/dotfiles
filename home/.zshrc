@@ -60,7 +60,7 @@ alias gs='git status'
 alias gitloggraph='git log --oneline --graph'
 
 # PHP
-alias phplocal='FUEL_ENV=local php'
+#alias phplocal='FUEL_ENV=local php'
 
 
 # for rbenv
@@ -73,7 +73,7 @@ export RBENV_ROOT=$HOME/.rbenv
 eval "$(rbenv init - zsh)"
 
 # ssh aliases
-source $HOME/.zshrc.ssh.alias
+#source $HOME/.zshrc.ssh.alias
 
 
 bindkey -v
