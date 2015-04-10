@@ -9,7 +9,7 @@ export PATH=/opt/local/bin:/opt/local/sbin:~/bin:$PATH
 #export GOPATH=/usr/local/go/bin
 
 
-export TERM=xterm-256color
+#export TERM=xterm-256color
 
 #export /Users/tknzk/Sites/bit/fuel/vendor/bin/
 
@@ -45,6 +45,10 @@ alias mv='mv -i'
 alias tailf='tail -f'
 
 alias mongo='mongo ~/dot.mongorc.js --shell'
+
+alias railsserver='bundle exec rails s -b 127.0.0.1'
+alias railsconsole='bundle exec rails console'
+
 
 #alias mysql='mysql -uroot'
 
