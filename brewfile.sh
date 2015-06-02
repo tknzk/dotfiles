@@ -59,12 +59,23 @@ brew install mysql
 brew install postgresql
 brew install redis
 
+#brew install nginx
+brew install nginx --with-debug --with-gnuzip --with-spdy --devel
+
+brew install memcached
+
+brew install s3cmd
+
 brew install ngrep
 brew install tcpflow
 #brew install wireshark
 
-#brew install docker
-#brew install boot2docker
+brew install pyenv
+
+brew install docker
+brew install boot2docker
+brew install docker-compose
+
 #brew install packer
 
 # .dmg

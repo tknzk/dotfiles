@@ -36,7 +36,7 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'pangloss/vim-javascript'
 
 NeoBundle 'thinca/vim-quickrun'
-"NeoBundle 'TwitVim'
+NeoBundle 'TwitVim'
 NeoBundle 'netrw.vim'
 NeoBundle 'tpope/vim-abolish'
 "NeoBundle 'bling/vim-airline'
@@ -49,6 +49,9 @@ NeoBundle 'AndrewRadev/switch.vim'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'ruby-matchit'
 
+NeoBundle 'Blackrush/vim-gocode'
+
+
 " vimscript
 "NeoBundle 'PDV--phpDocumentor-for-Vim'
 
@@ -59,6 +62,8 @@ NeoBundle 'ruby-matchit'
 
 NeoBundle 'mattn/benchvimrc-vim'
 NeoBundle 'mattn/emoji-vim'
+
+NeoBundle 'othree/html5.vim'
 
 "NeoBundle 'jeetsukumaran/vim-markology'
 
@@ -79,7 +84,7 @@ filetype plugin indent on
 NeoBundleCheck
 
 "--------
-" function 
+" function
 "--------
 "function! GetStatusEx()
 "let str = ''
@@ -89,7 +94,7 @@ NeoBundleCheck
 "endif
 "return str
 "endfunction
- 
+
 "--------
 " config
 "--------
@@ -120,21 +125,17 @@ colorscheme desert
 "--------
 " keymap
 "--------
- 
+
 nnoremap j gj
 nnoremap k gk
 " search hl cancel
 nmap <ESC><ESC> :nohlsearch<CR><ESC>
 
- 
+
 "--------
+" 起動位置の保存
 "--------
-"if has("autocmd")
-"autocmd BufReadPost *
-"\ if line("'\"") > 0 && line("'\"") <= line("$") |
-"\   exe "normal g`\"" |
-"\ endif
-"endif
+autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 
 
 "--------
@@ -229,7 +230,7 @@ let g:indent_guides_space_guides=1
 
 hi IndentGuidesOdd  ctermbg=235
 hi IndentGuidesEven ctermbg=237
-au FileType coffee,ruby,javascript,python IndentGuidesEnable
+au FileType coffee,ruby,eruby,javascript,python IndentGuidesEnable
 nmap <silent><Leader>ig <Plug>IndentGuidesToggle
 
 if !exists('loaded_matchit')
@@ -263,6 +264,26 @@ nnoremap <silent> ,urfl :<C-u>Unite file file/new -input=lib/ <CR>
 nnoremap <silent> ,urr :<C-u>Unite file_rec/async:spec/ <CR>
 nnoremap <silent> ,urfr :<C-u>Unite file file/new -input=spec/ <CR>
 
+
+"-----
+" hardtab/全角スペースの色付け
+"-----
+"set lcs=tab:>.,trail:_,extends:\
+"set list
+highlight SpecialKey cterm=NONE ctermfg=7 guifg=7
+highlight JpSpace cterm=underline ctermfg=7 guifg=7
+au BufRead,BufNew * match JpSpace /　/
+
+" 保存時に行末の空白を除去する
+function! s:remove_dust()
+    let cursor = getpos(".")
+    %s/\s\+$//ge
+    %s/\t/  /ge
+    call setpos(".", cursor)
+    unlet cursor
+endfunction
+autocmd BufWritePre * call <SID>remove_dust()
+"autocmd BufWritePre * :%s/\s\+$//ge
 
 "------
 "tab

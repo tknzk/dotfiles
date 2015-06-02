@@ -1,12 +1,21 @@
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/usr/local/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables bash completion for gcloud.
+#source '/usr/local/google-cloud-sdk/completion.zsh.inc'
+fpath=(/Users/TakumiKanzaki/gcloud-zsh-completion/src $fpath)
+
+export GOPATH=/usr/local/bin
+export GOPATH=/usr/local/go/bin
+
+
 #export PATH=/usr/local/bin:/usr/local/sbin:$PATH
-export PATH=/usr/local/bin:/usr/local/sbin:/Users/tknzk/Sites/bit/fuel/vendor/bin/:$PATH
-export PATH=/opt/local/bin:/opt/local/sbin:~/bin:$PATH
+#export PATH=/usr/local/bin:/usr/local/sbin:/Users/tknzk/Sites/bit/fuel/vendor/bin/:$PATH
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/go/bin:/usr/local/go/bin/bin:$PATH
+#export PATH=/opt/local/bin:/opt/local/sbin:~/bin:$PATH
 
 #export PGDATA=/usr/local/var/postgres
-
-
-#export GOPATH=/usr/local/bin
-#export GOPATH=/usr/local/go/bin
 
 
 #export TERM=xterm-256color
@@ -37,6 +46,10 @@ ZSH_THEME="candy"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
+#
+
+LC_CTYPE="ja_JP.UTF-8"
+
 
 alias la='ls -la'
 alias cp='cp -i'
@@ -49,6 +62,16 @@ alias mongo='mongo ~/dot.mongorc.js --shell'
 alias railsserver='bundle exec rails s -b 127.0.0.1'
 alias railsconsole='bundle exec rails console'
 
+alias listen_port='lsof -nP -iTCP -sTCP:LISTEN'
+
+alias ad_server_unicorn_reload='kill -USR2 `cat /tmp/ad_server/unicorn.pid`'
+alias ad_server_unicorn_stop='kill -QUIT `cat /tmp/ad_server/unicorn.pid`'
+alias ad_server_unicorn_start='bundle exec unicorn -c config/unicorn.rb -D'
+alias ad_server_unicorn_restart='kill -QUIT `cat /tmp/ad_server/unicorn.pid` && sleep 5 && bundle exec unicorn -c config/unicorn.rb -D'
+
+alias td-agent_unload='sudo launchctl unload /Library/LaunchDaemons/td-agent.plist'
+alias td-agent_load='sudo launchctl load /Library/LaunchDaemons/td-agent.plist'
+alias td-agent_reload='sudo launchctl unload /Library/LaunchDaemons/td-agent.plist && sleep 2 && sudo launchctl load /Library/LaunchDaemons/td-agent.plist'
 
 #alias mysql='mysql -uroot'
 
@@ -75,6 +98,13 @@ if [ -d ${HOME}/.rbenv  ] ; then
 fi
 export RBENV_ROOT=$HOME/.rbenv
 eval "$(rbenv init - zsh)"
+
+# for pyenv
+export PYENV_ROOT="${HOME}/.pyenv"
+if [ -d "${PYENV_ROOT}" ]; then
+ export PATH=${PYENV_ROOT}/bin:$PATH
+ eval "$(pyenv init -)"
+fi
 
 # ssh aliases
 #source $HOME/.zshrc.ssh.alias
@@ -111,11 +141,11 @@ bindkey '^N' history-beginning-search-forward-end
 ##         read -E -k 1 a
 ##     done
 ## }
-## 
+##
 ## #
 ## # If the $SHOWMODE variable is set, displays the vi mode, specified by
 ## # the $VIMODE variable, under the current command line.
-## # 
+## #
 ## # Arguments:
 ## #
 ## #   1 (optional): Beyond normal calculations, the number of additional
@@ -124,33 +154,33 @@ bindkey '^N' history-beginning-search-forward-end
 ## showmode() {
 ##     typeset movedown
 ##     typeset row
-## 
+##
 ##     # Get number of lines down to print mode
 ##     movedown=$(($(echo "$RBUFFER" | wc -l) + ${1:-0}))
-##     
+##
 ##     # Get current row position
 ##     echo -n "\e[6n"
 ##     row="${${$(readuntil R)#*\[}%;*}"
-##     
+##
 ##     # Are we at the bottom of the terminal?
 ##     if [ $((row+movedown)) -gt "$LINES" ]
 ##     then
 ##         # Scroll terminal up one line
 ##         echo -n "\e[1S"
-##         
+##
 ##         # Move cursor up one line
 ##         echo -n "\e[1A"
 ##     fi
-##     
+##
 ##     # Save cursor position
 ##     echo -n "\e[s"
-##     
+##
 ##     # Move cursor to start of line $movedown lines down
 ##     echo -n "\e[$movedown;E"
-##     
+##
 ##     # Change font attributes
 ##     echo -n "\e[1m"
-##     
+##
 ##     # Has a mode been set?
 ##     if [ -n "$VIMODE" ]
 ##     then
@@ -160,18 +190,18 @@ bindkey '^N' history-beginning-search-forward-end
 ##         # Clear mode line
 ##         echo -n "\e[0K"
 ##     fi
-## 
+##
 ##     # Restore font
 ##     echo -n "\e[0m"
-##     
+##
 ##     # Restore cursor position
 ##     echo -n "\e[u"
 ## }
-## 
+##
 ## clearmode() {
 ##     VIMODE= showmode
 ## }
-## 
+##
 ## #
 ## # Temporary function to extend built-in widgets to display mode.
 ## #
@@ -185,11 +215,11 @@ bindkey '^N' history-beginning-search-forward-end
 ## makemodal () {
 ##     # Create new function
 ##     eval "$1() { zle .'$1'; ${2:+VIMODE='$2'}; showmode $3 }"
-## 
+##
 ##     # Create new widget
 ##     zle -N "$1"
 ## }
-## 
+##
 ## # Extend widgets
 ## makemodal vi-add-eol           INSERT
 ## makemodal vi-add-next          INSERT
@@ -203,7 +233,7 @@ bindkey '^N' history-beginning-search-forward-end
 ## makemodal vi-open-line-below   INSERT 1
 ## makemodal vi-replace           REPLACE
 ## makemodal vi-cmd-mode          NORMAL
-## 
+##
 ## unfunction makemodal
 
 
@@ -240,12 +270,15 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-source ~/.zsh.d/zsh-notify/notify.plugin.zsh
+#source ~/.zsh.d/zsh-notify/notify.plugin.zsh
 
-export SYS_NOTIFIER="/usr/local/bin/terminal-notifier"
-export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
+#export SYS_NOTIFIER="/usr/local/bin/terminal-notifier"
+#export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
 
 
 
 # Customize to your needs...
 #export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin
+    export DOCKER_TLS_VERIFY=1
+    export DOCKER_HOST=tcp://192.168.59.103:2376
+    export DOCKER_CERT_PATH=/Users/TakumiKanzaki/.boot2docker/certs/boot2docker-vm
