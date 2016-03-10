@@ -50,6 +50,10 @@ NeoBundle 'tpope/vim-rails'
 NeoBundle 'ruby-matchit'
 
 NeoBundle 'Blackrush/vim-gocode'
+NeoBundle 'rhysd/github-complete.vim'
+NeoBundle 'junegunn/vim-emoji'
+
+
 
 
 " vimscript
@@ -62,6 +66,7 @@ NeoBundle 'Blackrush/vim-gocode'
 
 NeoBundle 'mattn/benchvimrc-vim'
 NeoBundle 'mattn/emoji-vim'
+NeoBundle 'mattn/vim-maketable'
 
 NeoBundle 'othree/html5.vim'
 
@@ -117,6 +122,10 @@ set hlsearch
 set incsearch
 set vb t_vb=
 set laststatus=2
+
+"set cursorcolumn
+"set cursorline
+
 "set statusline=%y%{GetStatusEx()}%F%m%r%=<%c:%l>
 
 syntax on
