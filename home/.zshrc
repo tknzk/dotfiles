@@ -9,13 +9,22 @@ fpath=(/Users/TakumiKanzaki/gcloud-zsh-completion/src $fpath)
 export GOPATH=/usr/local/bin
 export GOPATH=/usr/local/go/bin
 
+# go_appengin_sdk
+export PATH=/usr/local/go_appengine:$PATH
+
+
+
+
 
 #export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 #export PATH=/usr/local/bin:/usr/local/sbin:/Users/tknzk/Sites/bit/fuel/vendor/bin/:$PATH
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/go/bin:/usr/local/go/bin/bin:$PATH
+
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+
 #export PATH=/opt/local/bin:/opt/local/sbin:~/bin:$PATH
 
-#export PGDATA=/usr/local/var/postgres
+export PGDATA=/usr/local/var/postgres
 
 
 #export TERM=xterm-256color
@@ -57,21 +66,15 @@ alias rm='rm -i'
 alias mv='mv -i'
 alias tailf='tail -f'
 
-alias mongo='mongo ~/dot.mongorc.js --shell'
-
-alias railsserver='bundle exec rails s -b 127.0.0.1'
-alias railsconsole='bundle exec rails console'
-
 alias listen_port='lsof -nP -iTCP -sTCP:LISTEN'
 
-alias ad_server_unicorn_reload='kill -USR2 `cat /tmp/ad_server/unicorn.pid`'
-alias ad_server_unicorn_stop='kill -QUIT `cat /tmp/ad_server/unicorn.pid`'
-alias ad_server_unicorn_start='bundle exec unicorn -c config/unicorn.rb -D'
-alias ad_server_unicorn_restart='kill -QUIT `cat /tmp/ad_server/unicorn.pid` && sleep 5 && bundle exec unicorn -c config/unicorn.rb -D'
+#alias mongoshell='mongo ~/dot.mongorc.js --shell'
+alias mongoshell_iqon='mongo ~/dot.mongorc.js --shell --host 192.168.1.215'
 
 alias td-agent_unload='sudo launchctl unload /Library/LaunchDaemons/td-agent.plist'
 alias td-agent_load='sudo launchctl load /Library/LaunchDaemons/td-agent.plist'
 alias td-agent_reload='sudo launchctl unload /Library/LaunchDaemons/td-agent.plist && sleep 2 && sudo launchctl load /Library/LaunchDaemons/td-agent.plist'
+
 
 #alias mysql='mysql -uroot'
 
@@ -90,6 +93,14 @@ alias gitloggraph='git log --oneline --graph'
 #alias phplocal='FUEL_ENV=local php'
 
 
+# for pyenv
+export PYENV_ROOT="${HOME}/.pyenv"
+if [ -d "${PYENV_ROOT}" ]; then
+ export PATH=${PYENV_ROOT}/bin:$PATH
+ eval "$(pyenv init -)"
+fi
+
+
 # for rbenv
 if [ -d ${HOME}/.rbenv  ] ; then
   export PATH="$HOME/.rbenv/bin:$PATH"
@@ -98,13 +109,6 @@ if [ -d ${HOME}/.rbenv  ] ; then
 fi
 export RBENV_ROOT=$HOME/.rbenv
 eval "$(rbenv init - zsh)"
-
-# for pyenv
-export PYENV_ROOT="${HOME}/.pyenv"
-if [ -d "${PYENV_ROOT}" ]; then
- export PATH=${PYENV_ROOT}/bin:$PATH
- eval "$(pyenv init -)"
-fi
 
 # ssh aliases
 #source $HOME/.zshrc.ssh.alias
@@ -276,9 +280,52 @@ source $ZSH/oh-my-zsh.sh
 #export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
 
 
+#alias brew="env PATH=${PATH/\/Users\/TakumiKanzaki\/\.phpenv\/shims:/} brew"
+
 
 # Customize to your needs...
 #export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin
-    export DOCKER_TLS_VERIFY=1
-    export DOCKER_HOST=tcp://192.168.59.103:2376
-    export DOCKER_CERT_PATH=/Users/TakumiKanzaki/.boot2docker/certs/boot2docker-vm
+#export DOCKER_TLS_VERIFY=1
+#export DOCKER_HOST=tcp://192.168.59.103:2376
+#export DOCKER_CERT_PATH=/Users/TakumiKanzaki/.boot2docker/certs/boot2docker-vm
+
+
+
+# local dev
+source .zshrc_dev_keys
+
+autoload -Uz add-zsh-hook
+
+rbenv_version () {
+  local ruby_v=`rbenv version | cut -f1 -d' '`
+  if [[ "`rbenv version | grep '.rbenv/version'`" = "" ]];then
+    if [[ "`rbenv version | grep 'RBENV_VERSION'`" = "" ]];then
+      local setting="%{$fg[green]%}[$ruby_v (local)]%{$reset_color%}"
+    else
+      local setting="%{$fg[blue]%}[$ruby_v (global)]%{$reset_color%}"
+    fi
+  else
+    local setting="%{$fg[blue]%}[$ruby_v (global)]%{$reset_color%}"
+  fi
+  RPROMPT="$setting"
+}
+add-zsh-hook precmd rbenv_version
+
+# 使い方:
+# 1. 以下を .bashrc などにコピペして保存 -> 端末・シェル再起動または .bashrc 再読み込み
+# 2. Git リポジトリを clone したディレクトリに移動 -> Pull Request と紐付いているブランチを checkout
+# 3. $ ciopen [COMMIT]
+#    $ ciopen head
+#    $ ciopen head^
+#    $ ciopen head~2
+ciopen() {
+  commit=$1
+  result=$(hub ci-status -v $commit)
+  if [ $? == 3 ]; then
+    echo $result
+  else
+    open $(echo $result | awk '{print $2}')
+  fi
+}
+
+eval $(docker-machine env docker-vm)
