@@ -69,7 +69,6 @@ alias tailf='tail -f'
 alias listen_port='lsof -nP -iTCP -sTCP:LISTEN'
 
 #alias mongoshell='mongo ~/dot.mongorc.js --shell'
-alias mongoshell_iqon='mongo ~/dot.mongorc.js --shell --host 192.168.1.215'
 
 alias td-agent_unload='sudo launchctl unload /Library/LaunchDaemons/td-agent.plist'
 alias td-agent_load='sudo launchctl load /Library/LaunchDaemons/td-agent.plist'
