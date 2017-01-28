@@ -1,6 +1,7 @@
 [user]
     name = tknzk
     email = tkm.knzk@gmail.com
+  signingkey = 48A9C6D7A34510DB54B1A75B749CF09D5A4A7EC4
 [color]
     # colorの設定(以下のコマンドは自動で色つける)
     status = auto
@@ -32,9 +33,11 @@
     log = diff-highlight | less
     show = diff-highlight | less
     diff = diff-highlight | less
-
-
 [filter "lfs"]
   clean = git lfs clean %f
   smudge = git lfs smudge %f
   required = true
+[ghq]
+  root = /Users/tknzk/src
+[gpg]
+  program = gpg2
