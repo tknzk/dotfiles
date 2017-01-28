@@ -1,18 +1,7 @@
-
-# The next line updates PATH for the Google Cloud SDK.
-source '/usr/local/google-cloud-sdk/path.zsh.inc'
-
-# The next line enables bash completion for gcloud.
-#source '/usr/local/google-cloud-sdk/completion.zsh.inc'
-fpath=(/Users/TakumiKanzaki/gcloud-zsh-completion/src $fpath)
-
-export GOPATH=/usr/local/bin
-export GOPATH=/usr/local/go/bin
+export GOPATH=$HOME
 
 # go_appengin_sdk
 export PATH=/usr/local/go_appengine:$PATH
-
-
 
 
 
@@ -21,6 +10,7 @@ export PATH=/usr/local/go_appengine:$PATH
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/go/bin:/usr/local/go/bin/bin:$PATH
 
 export PATH=$HOME/.nodebrew/current/bin:$PATH
+export PATH=$HOME/bin:$PATH
 
 #export PATH=/opt/local/bin:/opt/local/sbin:~/bin:$PATH
 
@@ -291,7 +281,7 @@ source $ZSH/oh-my-zsh.sh
 
 
 # local dev
-source .zshrc_dev_keys
+# source .zshrc_dev_keys
 
 autoload -Uz add-zsh-hook
 
@@ -317,14 +307,35 @@ add-zsh-hook precmd rbenv_version
 #    $ ciopen head
 #    $ ciopen head^
 #    $ ciopen head~2
-ciopen() {
-  commit=$1
-  result=$(hub ci-status -v $commit)
-  if [ $? == 3 ]; then
-    echo $result
-  else
-    open $(echo $result | awk '{print $2}')
-  fi
-}
+# ciopen() {
+#   commit=$1
+#   result=$(hub ci-status -v $commit)
+#   if [ $? == 3 ]; then
+#     echo $result
+#   else
+#     open $(echo $result | awk '{print $2}')
+#   fi
+# }
 
-eval $(docker-machine env docker-vm)
+# eval $(docker-machine env docker-vm)
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f /usr/local/google-cloud-sdk/path.zsh.inc ]; then
+  source '/usr/local/google-cloud-sdk/path.zsh.inc'
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f /usr/local/google-cloud-sdk/completion.zsh.inc ]; then
+  source '/usr/local/google-cloud-sdk/completion.zsh.inc'
+fi
+
+function peco-src () {
+  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd ${selected_dir}"
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-src
+bindkey '^]' peco-src
