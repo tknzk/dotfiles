@@ -31,18 +31,63 @@ if dein#load_state(expand('~/.vim/bundles'))
   call dein#add('rhysd/github-complete.vim')
   call dein#add('junegunn/vim-emoji')
 
-""""" NeoBundle 'nathanaelkane/vim-indent-guides'
+  call dein#add('nathanaelkane/vim-indent-guides')
 
   call dein#add('sudo.vim')
   call dein#add('VimClojure')
   call dein#add('netrw.vim')
   call dein#add('lint.vim')
 
+  call dein#add('davidhalter/jedi-vim',{ 'autoload': { 'filetypes':['python'] } })
+  call dein#add('kevinw/pyflakes-vim', { 'autoload': { 'filetypes':['python'] }})
+  call dein#add('hdima/python-syntax', { 'autoload': { 'filetypes':['python'] }})
+  call dein#add('fatih/vim-go', { 'autoload': { 'filetypes':['go'] }})
+  call dein#add('benmills/vim-golang-alternate', { 'autoload': { 'filetypes':['go'] }})
+  call dein#add('vim-jp/vim-go-extra', { 'autoload': { 'filetypes': ['go'] }})
+  call dein#add('jelera/vim-javascript-syntax', { 'autoload':{ 'filetypes':['javascript'] }})
+
   call dein#end()
   call dein#save_state()
 endif
 
 filetype plugin indent on
+
+" vim-indent-guides
+let g:indent_guides_auto_colors=0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=234
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=238
+let g:indent_guides_enable_on_vim_startup=0
+let g:indent_guides_color_change_percent=20
+let g:indent_guides_start_level=2
+let g:indent_guides_guide_size=1
+let g:indent_guides_space_guides=1
+" au FileType coffee,ruby,eruby,javascript,python IndentGuidesEnable
+" nmap <silent><Leader>ig <Plug>IndentGuidesToggle
+
+" vim-indent-guides
+" let g:indent_guides_auto_colors=0
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=234
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=238
+" let g:indent_guides_enable_on_vim_startup=1
+" let g:indent_guides_start_level=2
+" let g:indent_guides_guide_size=1
+"
+"------------------------------------
+" indent_guides
+"------------------------------------
+" インデントの深さに色を付ける
+" let g:indent_guides_start_level=2
+" let g:indent_guides_auto_colors=0
+" let g:indent_guides_enable_on_vim_startup=0
+" let g:indent_guides_color_change_percent=20
+" let g:indent_guides_guide_size=1
+" let g:indent_guides_space_guides=1
+"
+" hi IndentGuidesOdd  ctermbg=235
+" hi IndentGuidesEven ctermbg=237
+" " au FileType coffee,ruby,eruby,javascript,python IndentGuidesEnable
+" nmap <silent><Leader>ig <Plug>IndentGuidesToggle
+
 syntax enable
 
 "--------
@@ -135,21 +180,6 @@ let g:syntastic_mode_map = { 'mode': 'active',
 """"" "let g:syntastic_auto_loc_list = 1
 """"" "let g:syntastic_javascript_checker = 'jshint'
 
-"------------------------------------
-" indent_guides
-"------------------------------------
-" インデントの深さに色を付ける
-let g:indent_guides_start_level=2
-let g:indent_guides_auto_colors=0
-let g:indent_guides_enable_on_vim_startup=0
-let g:indent_guides_color_change_percent=20
-let g:indent_guides_guide_size=1
-let g:indent_guides_space_guides=1
-
-hi IndentGuidesOdd  ctermbg=235
-hi IndentGuidesEven ctermbg=237
-au FileType coffee,ruby,eruby,javascript,python IndentGuidesEnable
-nmap <silent><Leader>ig <Plug>IndentGuidesToggle
 
 if !exists('loaded_matchit')
   " matchitを有効化

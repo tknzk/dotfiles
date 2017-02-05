@@ -17,6 +17,10 @@ export PATH=$HOME/bin:$PATH
 export PGDATA=/usr/local/var/postgres
 
 
+# nvm
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
+
 #export TERM=xterm-256color
 
 #export /Users/tknzk/Sites/bit/fuel/vendor/bin/
