@@ -61,34 +61,9 @@ let g:indent_guides_color_change_percent=20
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
 let g:indent_guides_space_guides=1
-" au FileType coffee,ruby,eruby,javascript,python IndentGuidesEnable
-" nmap <silent><Leader>ig <Plug>IndentGuidesToggle
+au FileType coffee,ruby,eruby,javascript,python,haml IndentGuidesEnable
+nmap <silent><Leader>ig <Plug>IndentGuidesToggle
 
-" vim-indent-guides
-" let g:indent_guides_auto_colors=0
-" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=234
-" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=238
-" let g:indent_guides_enable_on_vim_startup=1
-" let g:indent_guides_start_level=2
-" let g:indent_guides_guide_size=1
-"
-"------------------------------------
-" indent_guides
-"------------------------------------
-" インデントの深さに色を付ける
-" let g:indent_guides_start_level=2
-" let g:indent_guides_auto_colors=0
-" let g:indent_guides_enable_on_vim_startup=0
-" let g:indent_guides_color_change_percent=20
-" let g:indent_guides_guide_size=1
-" let g:indent_guides_space_guides=1
-"
-" hi IndentGuidesOdd  ctermbg=235
-" hi IndentGuidesEven ctermbg=237
-" " au FileType coffee,ruby,eruby,javascript,python IndentGuidesEnable
-" nmap <silent><Leader>ig <Plug>IndentGuidesToggle
-
-syntax enable
 
 "--------
 " config
@@ -173,9 +148,12 @@ if has('conceal')
 endif
 
 " syntastic
-let g:syntastic_mode_map = { 'mode': 'active',
-  \ 'active_filetypes': [],
+let g:syntastic_mode_map = { 'mode': 'passive',
+  \ 'active_filetypes': [''],
   \ 'passive_filetypes': ['html'] }
+" rubocop
+let g:syntastic_ruby_checkers = ['rubocop']
+
 
 """"" "let g:syntastic_auto_loc_list = 1
 """"" "let g:syntastic_javascript_checker = 'jshint'
@@ -231,6 +209,7 @@ function! s:remove_dust()
 endfunction
 autocmd BufWritePre * call <SID>remove_dust()
 "autocmd BufWritePre * :%s/\s\+$//ge
+
 
 """"" "------
 """"" "tab
