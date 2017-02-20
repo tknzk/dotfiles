@@ -1,7 +1,7 @@
 [user]
     name = tknzk
     email = tkm.knzk@gmail.com
-  signingkey = 48A9C6D7A34510DB54B1A75B749CF09D5A4A7EC4
+	signingkey = 405BBAFE
 [color]
     # colorの設定(以下のコマンドは自動で色つける)
     status = auto
@@ -40,4 +40,4 @@
 [ghq]
   root = /Users/tknzk/src
 [gpg]
-  program = gpg2
+  program = gpg
