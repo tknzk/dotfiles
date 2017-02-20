@@ -59,6 +59,7 @@ alias cp='cp -i'
 alias rm='rm -i'
 alias mv='mv -i'
 alias tailf='tail -f'
+alias vi='vim'
 
 alias listen_port='lsof -nP -iTCP -sTCP:LISTEN'
 
@@ -285,7 +286,7 @@ source $ZSH/oh-my-zsh.sh
 
 
 # local dev
-# source .zshrc_dev_keys
+source .zshrc_dev_alias
 
 autoload -Uz add-zsh-hook
 
