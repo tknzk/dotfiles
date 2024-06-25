@@ -1,3 +1,40 @@
+" Ward off unexpected things that your distro might have made, as
+" well as sanely reset options when re-sourcing .vimrc
+set nocompatible
+
+" Set Dein base path (required)
+let s:dein_base = '/Users/tknzk/.cache/dein'
+
+" Set Dein source path (required)
+let s:dein_src = '/Users/tknzk/.cache/dein/repos/github.com/Shougo/dein.vim'
+
+" Set Dein runtime path (required)
+execute 'set runtimepath+=' . s:dein_src
+
+" Call Dein initialization (required)
+call dein#begin(s:dein_base)
+
+call dein#add(s:dein_src)
+
+" Your plugins go here:
+"call dein#add('Shougo/neosnippet.vim')
+"call dein#add('Shougo/neosnippet-snippets')
+
+" Finish Dein initialization (required)
+call dein#end()
+
+" Attempt to determine the type of a file based on its name and possibly its
+" contents. Use this to allow intelligent auto-indenting for each filetype,
+" and for plugins that are filetype specific.
+filetype indent plugin on
+
+" Enable syntax highlighting
+syntax enable
+
+" Uncomment if you want to install not-installed plugins on startup.
+"if dein#check_install()
+" call dein#install()
+"endif
 if &compatible
   set nocompatible
 endif
@@ -26,17 +63,17 @@ if dein#load_state(expand('~/.vim/bundles'))
   call dein#add('altercation/vim-colors-solarized')
   call dein#add('AndrewRadev/switch.vim')
   call dein#add('tpope/vim-rails')
-  call dein#add('ruby-matchit')
+  call dein#add('vim-scripts/ruby-matchit')
   call dein#add('Blackrush/vim-gocode')
   call dein#add('rhysd/github-complete.vim')
   call dein#add('junegunn/vim-emoji')
 
-  call dein#add('nathanaelkane/vim-indent-guides')
+  call dein#add('preservim/vim-indent-guides')
 
-  call dein#add('sudo.vim')
-  call dein#add('VimClojure')
-  call dein#add('netrw.vim')
-  call dein#add('lint.vim')
+  call dein#add('vim-scripts/sudo.vim')
+  call dein#add('vim-scripts/VimClojure')
+  call dein#add('vim-scripts/netrw.vim')
+  call dein#add('vim-scripts/lint.vim')
 
   call dein#add('davidhalter/jedi-vim',{ 'autoload': { 'filetypes':['python'] } })
   call dein#add('kevinw/pyflakes-vim', { 'autoload': { 'filetypes':['python'] }})
