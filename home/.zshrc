@@ -4,7 +4,6 @@ export GOPATH=$HOME
 export PATH=/usr/local/go_appengine:$PATH
 
 
-
 #export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 #export PATH=/usr/local/bin:/usr/local/sbin:/Users/tknzk/Sites/bit/fuel/vendor/bin/:$PATH
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/go/bin:/usr/local/go/bin/bin:$PATH
@@ -18,8 +17,8 @@ export PGDATA=/usr/local/var/postgres
 
 
 # nvm
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
+# export NVM_DIR="$HOME/.nvm"
+# . "/usr/local/opt/nvm/nvm.sh"
 
 #export TERM=xterm-256color
 
@@ -62,6 +61,8 @@ alias tailf='tail -f'
 alias vi='vim'
 
 alias listen_port='lsof -nP -iTCP -sTCP:LISTEN'
+
+alias git_branch_clean="git branch --merged | egrep -v '^\*|staging|master|features/' | xargs git branch -d"
 
 #alias mongoshell='mongo ~/dot.mongorc.js --shell'
 
@@ -286,7 +287,7 @@ source $ZSH/oh-my-zsh.sh
 
 
 # local dev
-source .zshrc_dev_alias
+source ~/.zshrc_dev_alias
 
 autoload -Uz add-zsh-hook
 
@@ -344,3 +345,11 @@ function peco-src () {
 }
 zle -N peco-src
 bindkey '^]' peco-src
+
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+export PATH="/opt/homebrew/opt/gawk/libexec/gnubin:$PATH"
+
+# diff-highlight
+export PATH=" PATH=$PATH:$(brew --prefix git)/share/git-core/contrib/diff-highlight:$PATH"
+
